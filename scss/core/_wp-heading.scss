@@ -1,0 +1,40 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--titles-color);
+    line-height: var(--titles-line-height);
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: var(--h1-size);
+    font-family: var(--titles-font);
+}
+
+h2 {
+    font-size: var(--h2-size);
+    font-family: var(--titles-font);
+}
+
+h3 {
+    font-size: var(--h3-size);
+    font-family: var(--titles-font);
+}
+
+h4 {
+    font-size: var(--h4-size);
+    font-family: var(--titles-font);
+}
+
+h5 {
+    font-size: var(--h5-size);
+    font-family: var(--titles-font);
+}
+
+h6 {
+    font-size: var(--h6-size);
+    font-family: var(--titles-font);
+}

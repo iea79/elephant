@@ -1,0 +1,146 @@
+.is-root-container .post,
+.post {
+    @media (min-width: 768px) {
+        align-items: start;
+        display: flex;
+        gap: 7.1em;
+    }
+
+    &.wp-block-group {
+        margin-bottom: 2.5em;
+    }
+
+    &__aside {
+        flex: none;
+        margin: 2.11em 0;
+
+        @media (min-width: 768px) {
+            width: 21em;
+            margin: 0;
+        }
+
+        .page_title {
+            margin-top: 0;
+
+            @media (min-width: 768px) {
+                width: calc(100% + 2em);
+            }
+        }
+
+        &.wp-block-image,
+        &.wp-block-post-featured-image,
+        .wp-block-image,
+        .wp-block-post-featured-image {
+            width: 21em;
+            height: 21em;
+            border-radius: 0.125em;
+            overflow: hidden;
+            margin: 0;
+
+            img {
+                display: block;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            &.wp-block-image,
+            &.wp-block-post-featured-image {
+                margin-bottom: 2.14em;
+                width: 15.8em;
+                height: 15.8em;
+            }
+            &.wp-block-image,
+            .wp-block-image {
+                width: 10.35em;
+                height: 10.35em;
+            }
+        }
+    }
+
+    &__content {
+        display: block !important;
+        flex: 1;
+        max-width: 27.1em;
+        margin-top: 0 !important;
+
+        h1 {
+            margin-bottom: 1em;
+        }
+
+        h2,
+        h3,
+        h4,
+        h5 {
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        h2 {
+            margin: 1.1em 0 0.66em;
+        }
+
+        h3 {
+            margin: 1.94em 0 1.18em;
+        }
+
+        h4 {
+            margin: 2.22em 0 0.8em;
+        }
+
+        p,
+        ul,
+        ol {
+            font-size: 0.8125em;
+            font-weight: 500;
+        }
+
+        ol {
+            counter-reset: ol;
+            list-style: none;
+
+            li {
+                counter-increment: ol;
+                position: relative;
+                padding-left: 0.75em;
+
+                &:before {
+                    content: counter(ol);
+                    position: absolute;
+                    right: 100%;
+                    width: 2.12em;
+                    height: 2.12em;
+                    border-radius: 2px;
+                    background: #beb3a5;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.75em;
+                    font-weight: 700;
+                }
+            }
+        }
+
+        p {
+            margin: 1.25em 0;
+        }
+
+        ul,
+        ol {
+        }
+
+        > * {
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    &__cat {
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "apiVersion": 2,
+  "name": "sws/work-single-gallery",
+  "title": "Слайдер (детали)",
+  "category": "media",
+  "icon": "format-gallery",
+  "description": "Галерея в стиле workSingle__gallery с миниатюрами и зумом.",
+  "textdomain": "sws",
+  "attributes": {
+    "images": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "supports": {
+    "align": true,
+    "html": false,
+    "multiple": true,
+    "reusable": true
+  },
+  "editorScript": "sws-work-single-gallery-editor"
+}
+

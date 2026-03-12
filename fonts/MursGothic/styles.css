@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Murs Gothic';
+    src: url('MursGothic-WideDark.woff2') format('woff2'),
+        url('MursGothic-WideDark.woff') format('woff'),
+        url('MursGothic-WideDark.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}

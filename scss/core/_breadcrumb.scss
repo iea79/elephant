@@ -1,0 +1,41 @@
+// Breadcrumb ==================================================================
+
+.breadcrumbs {
+    margin: 0.3em 0 3.9em;
+    padding: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.2;
+
+    @media (min-width: 480px) {
+        margin: -0.2em 0 1.3em;
+    }
+
+    @media (min-width: 768px) {
+        margin: 0.125em 0 4.8em;
+    }
+
+    a,
+    span {
+        font-size: 0.46em;
+
+        @media (min-width: 768px) {
+            font-size: 0.5625em;
+        }
+    }
+
+    svg {
+        display: inline-block;
+        margin: 0 0.1em -0.1em 0.2em;
+        font-weight: 800;
+        vertical-align: middle;
+        width: 0.4em;
+    }
+
+    a {
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

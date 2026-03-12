@@ -1,0 +1,22 @@
+{
+    "apiVersion": 2,
+    "name": "sws/works-categories",
+    "title": "Категории работ",
+    "category": "common",
+    "icon": "category",
+    "description": "Блок выводит список категорий работ с изображениями и ссылками.",
+    "keywords": ["works", "categories", "taxonomy"],
+    "textdomain": "sws",
+    "attributes": {
+        "categories": {
+            "type": "array",
+            "default": []
+        }
+    },
+    "supports": {
+        "align": true,
+        "html": false,
+        "multiple": true,
+        "reusable": true
+    }
+}

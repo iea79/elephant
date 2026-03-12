@@ -1,0 +1,170 @@
+// Style for button and Guttenberg buttons
+.wp-block-button > * {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+}
+
+.btn,
+.wp-element-button,
+div.wpforms-container form.wpforms-form div.wpforms-submit-container .wpforms-submit {
+    color: var(--btn-primary-color);
+    font-family: var(--font-family-btns);
+    border: 1px solid var(--btn-primary-bg);
+    background-color: var(--btn-primary-bg);
+    font-size: 0.85em;
+    padding: 0.4em 1em;
+    font-weight: 700;
+    outline: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    max-width: 100%;
+    cursor: pointer;
+    border-radius: var(--btn-round);
+    transition: 0.3s ease-in-out;
+    transition-property: background-color, color;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &[type='submit'] {
+        font-size: 0.9em;
+        padding: 0.7em 1.3em;
+    }
+
+    @media (min-width: 480px) {
+        font-size: 0.6em;
+        padding: 0.6em 1em;
+
+        &[type='submit'] {
+            font-size: 0.8em;
+        }
+    }
+
+    @media (min-width: 768px) {
+        font-size: var(--btn-font-size);
+        padding: var(--btn-padding);
+    }
+
+    &:hover:not(:disabled) {
+        background-color: var(--btn-primary-bg-hover);
+        color: var(--btn-primary-color-hover);
+        border: 1px solid var(--btn-primary-bg-hover);
+        text-decoration: none;
+    }
+
+    &:focus:not(:disabled),
+    &:active:not(:disabled) {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-color);
+        border: 1px solid var(--btn-primary-bg);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &_small {
+        padding: 0.2em 1em;
+        font-size: 0.65em;
+        letter-spacing: 0.01em;
+    }
+
+    .is-style-outline &,
+    &_border {
+        border: 1px solid var(--btn-border-color);
+        background-color: transparent;
+
+        &:hover:not(:disabled) {
+            background-color: transparent;
+            color: var(--btn-border-color-hover);
+            border: 1px solid var(--btn-border-color-hover);
+        }
+
+        &:focus:not(:disabled),
+        &:active:not(:disabled) {
+            background-color: transparent;
+            color: var(--btn-border-color);
+            border: 1px solid var(--btn-border-color);
+        }
+
+        &--contrast {
+            color: var(--btn-border-contrast-color);
+            border: 1px solid var(--btn-border-contrast-color);
+
+            &:hover:not(:disabled) {
+                color: var(--btn-border-contrast-color-hover);
+                border: 1px solid var(--btn-border-contrast-color-hover);
+            }
+
+            &:focus:not(:disabled),
+            &:active:not(:disabled) {
+                color: var(--btn-border-contrast-color);
+                border: 1px solid var(--btn-border-contrast-color);
+            }
+        }
+    }
+
+    .is-style-secondary-button &,
+    &_secondary {
+        background-color: var(--btn-secondary-bg);
+        color: var(--btn-secondary-color);
+        border: 1px solid var(--btn-secondary-bg);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-secondary-bg-hover);
+            color: var(--btn-secondary-color-hover);
+            border: 1px solid var(--btn-secondary-bg-hover);
+        }
+
+        &:focus:not(:disabled),
+        &:active:not(:disabled) {
+            background-color: var(--btn-secondary-bg);
+            color: var(--btn-secondary-color);
+            border: 1px solid var(--btn-secondary-bg);
+        }
+    }
+
+    .is-style-success-button &,
+    &_success {
+        background-color: var(--btn-success-bg);
+        color: var(--btn-success-color);
+        border: 1px solid var(--btn-success-bg);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-success-bg-hover);
+            color: var(--btn-success-color-hover);
+            border: 1px solid var(--btn-success-bg-hover);
+        }
+
+        &:focus:not(:disabled),
+        &:active:not(:disabled) {
+            background-color: var(--btn-success-bg);
+            color: var(--btn-success-color);
+            border: 1px solid var(--btn-success-bg);
+        }
+    }
+
+    .is-style-danger-button &,
+    &_danger {
+        background-color: var(--btn-danger-bg);
+        color: var(--btn-danger-color);
+        border: 1px solid var(--btn-danger-bg);
+
+        &:hover:not(:disabled) {
+            background-color: var(--btn-danger-bg-hover);
+            color: var(--btn-danger-color-hover);
+            border: 1px solid var(--btn-danger-bg-hover);
+        }
+
+        &:focus:not(:disabled),
+        &:active:not(:disabled) {
+            background-color: var(--btn-danger-bg);
+            color: var(--btn-danger-color);
+            border: 1px solid var(--btn-danger-bg);
+        }
+    }
+}

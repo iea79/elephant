@@ -1,0 +1,124 @@
+@use "variables" as *;
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?5i0sm6') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?5i0sm6') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?5i0sm6##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="sws_icon_"], [class*=" sws_icon_"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sws_icon_facebook {
+  &:before {
+    content: $sws_icon_facebook; 
+  }
+}
+.sws_icon_instagram {
+  &:before {
+    content: $sws_icon_instagram; 
+  }
+}
+.sws_icon_youtube {
+  &:before {
+    content: $sws_icon_youtube; 
+  }
+}
+.sws_icon_twitter {
+  &:before {
+    content: $sws_icon_twitter; 
+  }
+}
+.sws_icon_whatsapp {
+  &:before {
+    content: $sws_icon_whatsapp; 
+  }
+}
+.sws_icon_ethereum {
+  &:before {
+    content: $sws_icon_ethereum; 
+  }
+}
+.sws_icon_paypal {
+  &:before {
+    content: $sws_icon_paypal; 
+  }
+}
+.sws_icon_mc {
+  &:before {
+    content: $sws_icon_mc; 
+  }
+}
+.sws_icon_visa {
+  &:before {
+    content: $sws_icon_visa; 
+  }
+}
+.sws_icon_sbp {
+  &:before {
+    content: $sws_icon_sbp; 
+  }
+}
+.sws_icon_mir_path1 {
+  &:before {
+    content: $sws_icon_mir_path1; 
+  }
+}
+.sws_icon_yoomoney {
+  &:before {
+    content: $sws_icon_yoomoney; 
+  }
+}
+.sws_icon_bitcoin {
+  &:before {
+    content: $sws_icon_bitcoin; 
+  }
+}
+.sws_icon_max {
+  &:before {
+    content: $sws_icon_max; 
+  }
+}
+.sws_icon_rutube {
+  &:before {
+    content: $sws_icon_rutube; 
+  }
+}
+.sws_icon_dzen {
+  &:before {
+    content: $sws_icon_dzen; 
+  }
+}
+.sws_icon_tg {
+  &:before {
+    content: $sws_icon_tg; 
+  }
+}
+.sws_icon_ok {
+  &:before {
+    content: $sws_icon_ok; 
+  }
+}
+.sws_icon_vk {
+  &:before {
+    content: $sws_icon_vk; 
+  }
+}
+

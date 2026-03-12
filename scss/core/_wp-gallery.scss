@@ -1,0 +1,14 @@
+.wp-block-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gallery-gap);
+    margin: var(--gallery-margin) 0;
+
+    &.wp-block-gallery-2 {
+        gap: var(--gallery-gap);
+
+        figure.wp-block-image:not(#individual-image) {
+            width: calc(50% - var(--gallery-gap) / 2);
+        }
+    }
+}

@@ -1,0 +1,241 @@
+@import '../mixins/mixin';
+
+.form {
+    &__row {
+        margin-bottom: 15px;
+
+        .btn,
+        input:not([type]),
+        input[type='datetime'],
+        input[type='email'],
+        input[type='number'],
+        input[type='password'],
+        input[type='search'],
+        input[type='tel'],
+        input[type='text'],
+        input[type='url'],
+        textarea {
+            width: 100%;
+        }
+
+        textarea {
+            max-width: 100%;
+            max-width: 100%;
+            min-height: 15px;
+        }
+    }
+}
+.wpforms-container {
+    margin-bottom: 0 !important;
+    padding-top: 1.25em;
+
+    @media (min-width: 768px) {
+        padding-top: 1.875em;
+    }
+
+    .wpforms-form .wpforms-field {
+        padding: 0;
+        margin: 0 0 1.1em;
+
+        @media (min-width: 768px) {
+            margin: 0 0 1.176em;
+        }
+
+        &:last-child {
+            margin-bottom: 1.25em;
+            @media (min-width: 768px) {
+                margin-bottom: 1.25em;
+            }
+        }
+    }
+}
+// Input text and textarea ================================================
+.wpforms-container .wpforms-form input:not([type]),
+.wpforms-container .wpforms-form input[type='text'],
+.wpforms-container .wpforms-form input[type='datetime'],
+.wpforms-container .wpforms-form input[type='email'],
+.wpforms-container .wpforms-form input[type='number'],
+.wpforms-container .wpforms-form input[type='password'],
+.wpforms-container .wpforms-form input[type='search'],
+.wpforms-container .wpforms-form input[type='tel'],
+.wpforms-container .wpforms-form input[type='url'],
+.wpforms-container .wpforms-form input[type='date'],
+.wpforms-container .wpforms-form input[type='time'],
+input:not([type]),
+input[type='datetime'],
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+input[type='date'],
+input[type='time'],
+textarea {
+    background-color: var(--form-field-bg);
+    border: 1px solid var(--form-field-border);
+    outline: none;
+    padding: 0.45em 1em;
+    font-size: 0.8em;
+    font-weight: 500;
+    font-family: var(--font-family-main);
+    border-radius: var(--form-field-radius);
+    transition: all 0.3s;
+    text-transform: uppercase;
+
+    @media (min-width: 480px) {
+        padding: 1em 0.8em;
+        font-size: 0.55em;
+    }
+
+    @media (min-width: 768px) {
+        padding: 0.9em 0.8em;
+        font-size: var(--form-font-size);
+    }
+
+    &:hover {
+        border: 1px solid var(--form-field-border-hover);
+        background-color: var(--form-field-bg-hover);
+    }
+
+    &:focus {
+        border: 1px solid var(--form-field-border-hover);
+        background-color: var(--form-field-bg-hover);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    // Placeholder for input +++++++++++++++
+    @include placeholder {
+        color: var(--form-field-placeholder);
+    }
+}
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
+    appearance: none;
+}
+
+/* Для Chrome */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    height: auto;
+    appearance: none;
+    margin: 0;
+}
+
+// Input checkbox and radio ===============================================
+.wpforms-field.wpforms-field-checkbox input[type='checkbox'],
+.wpforms-field.wpforms-field-checkbox input[type='radio'],
+input[type='checkbox'],
+input[type='radio'] {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--form-checkbox-size);
+    width: var(--form-checkbox-size);
+    border: 1px solid var(--form-checkbox-border);
+    overflow: hidden;
+    appearance: none;
+    outline: 0;
+    background: var(--form-checkbox-bg);
+    position: relative;
+    margin: 0;
+    flex: none;
+
+    &:not(:disabled),
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+
+    &:before,
+    &:before {
+        display: block;
+    }
+
+    &:disabled,
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+}
+
+input[type='radio'] {
+    border-radius: 50%;
+
+    &:before {
+        content: '';
+        width: 60%;
+        height: 60%;
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        background: var(--form-checkbox-color);
+        opacity: 0;
+    }
+
+    &:checked:before {
+        opacity: 1;
+    }
+
+    &:disabled:checked:before {
+        opacity: 0.5;
+    }
+}
+
+input[type='checkbox'] {
+    &:before {
+        font-family: 'elephant';
+        content: '\e901';
+        display: block;
+        font-size: 0.9em;
+        line-height: 1;
+        color: var(--form-checkbox-color);
+        opacity: 0;
+    }
+
+    &:checked:before,
+    &:indeterminate:before {
+        opacity: 1;
+    }
+
+    &:indeterminate:before {
+        content: '\f068';
+    }
+
+    &:disabled:checked:before,
+    &:disabled:indeterminate:before {
+        opacity: 0.5;
+    }
+}
+
+.wpforms-field {
+    &.wpforms-field-checkbox {
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 0.625em;
+        }
+
+        .wpforms-field-label-inline {
+            font-size: 0.763em;
+            color: var(--color-main);
+            line-height: 1.5;
+        }
+    }
+
+    .wpforms-error {
+        font-size: 0.763em;
+    }
+}

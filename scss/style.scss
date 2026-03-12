@@ -1,0 +1,59 @@
+@import 'mixins/mixin';
+// Fonts
+@import '../fonts/MursGothic/styles.css';
+@import '../fonts/elephant/style.css';
+@font-face {
+    font-family: 'Nunito';
+    src: url('../fonts/Nunito/Nunito-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+// Import files
+@import 'core/reset';
+@import 'core/template';
+@import 'core/policy-popup';
+@import 'core/header';
+@import 'core/menu';
+@import 'core/navbar';
+@import 'core/section';
+// @import 'core/grid';
+@import 'core/page';
+@import 'core/post';
+
+@import 'core/buttons';
+@import 'core/form';
+@import 'core/soc';
+@import 'core/wp-heading';
+@import 'core/wp-hr';
+@import 'core/wp-blockquote';
+@import 'core/wp-table';
+@import 'core/wp-list';
+@import 'core/wp-gallery';
+@import 'core/wp-image';
+
+@import 'core/footer';
+@import 'core/breadcrumb';
+@import 'core/pagination';
+// @import 'core/video';
+@import 'core/to-top';
+@import 'core/payment-methods';
+@import 'core/dev';
+@import 'vendor/modal';
+@import 'vendor/lightbox';
+@import 'patterns';
+@import 'core/getConsultation';
+@import 'core/works';
+@import 'core/workSingle';
+@import 'core/worksFilter';
+@import 'core/article';
+@import 'core/post';
+@import 'core/notFound';
+@import 'core/searchPage';
+
+// Глобальное поведение slick: до инициализации показываем только первый слайд
+// Работает с любыми слайдерами, где слайды — прямые дети контейнера slick
+.slick-slider:not(.slick-initialized) .slick-slide:not(:first-child) {
+    display: none !important;
+}

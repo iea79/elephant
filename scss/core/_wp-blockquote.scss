@@ -1,0 +1,48 @@
+.wp-block-quote {
+    background: var(--blockquote-bg);
+    color: var(--blockquote-color);
+    margin: var(--blockquote-margin) 0;
+    padding: var(--blockquote-padding) var(--blockquote-padding) var(--blockquote-padding) var(--blockquote-border-padding);
+    border-left: var(--blockquote-border-size) solid var(--blockquote-border-color);
+
+    > * {
+        &:first-child {
+            margin-top: 0;
+        }
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.wp-block-pullquote,
+.is-layout-flex > .wp-block-pullquote {
+    padding: 0;
+    margin: var(--blockquote-margin) 0;
+    font-size: 1em;
+
+    blockquote {
+        text-align: left;
+        border: var(--pullquote-border-size) solid var(--pullquote-border-color);
+        border-left: 0;
+        border-right: 0;
+        background: var(--pullquote-bg);
+        color: var(--pullquote-color);
+        padding: var(--pullquote-padding);
+        margin: 0;
+
+        cite {
+            color: var(--pullquote-color-second);
+            font-size: var(--pullquote-cite-fz);
+        }
+
+        > * {
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,161 @@
+// Стили для элемента поиска по works
+.worksSearch {
+    position: relative;
+    max-width: 43.4375em;
+    margin: 0 auto;
+
+    &__form {
+        display: flex;
+        gap: 0.625em;
+    }
+
+    &__input {
+        flex: 1;
+    }
+
+    &__button {
+        // background-color: #007cba;
+    }
+
+    &__results {
+        position: absolute;
+        top: calc(100% + 0.625em);
+        width: calc(100% - 5.4em);
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #fff;
+        border-radius: 0.125em;
+        z-index: 100;
+        max-height: 21.4em;
+        overflow-y: auto;
+    }
+
+    &__item {
+        display: flex;
+        align-items: start;
+        padding: 0.5em;
+        text-decoration: none;
+        color: inherit;
+        gap: 1em;
+
+        @media (min-width: 480px) {
+            gap: 0.5625em;
+        }
+
+        + * {
+            margin-top: -0.4em;
+        }
+    }
+
+    &__thumbnail {
+        flex-shrink: 0;
+        width: 4.7em;
+        height: 4.5em;
+        border-radius: 0.125em;
+        overflow: hidden;
+
+        @media (min-width: 480px) {
+            width: 2.4em;
+            height: 2.3em;
+        }
+
+        @media (min-width: 768px) {
+            width: 6.5em;
+            height: 6.3em;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        border-top: 1px solid #b2b1ac;
+        padding: 0.7em 0;
+        color: var(--titles-color);
+
+        @media (min-width: 480px) {
+            padding: 0.625em 0;
+        }
+    }
+
+    &__title {
+        font-family: var(--titles-font);
+        color: var(--titles-color);
+        text-transform: uppercase;
+        margin: 0 0 0.625em;
+        font-size: 0.9em;
+
+        @media (min-width: 480px) {
+            font-size: 0.5em;
+        }
+
+        @media (min-width: 768px) {
+            font-size: 1em;
+        }
+    }
+
+    &__excerpt {
+        font-size: 0.72em;
+        color: #666;
+        line-height: 1.4;
+        max-height: 2.5em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+
+        @media (min-width: 480px) {
+            font-size: 0.5em;
+        }
+
+        @media (min-width: 768px) {
+            font-size: 0.8125em;
+        }
+    }
+
+    &__loading,
+    &__noResults,
+    &__error {
+        padding: 1.25em;
+        text-align: center;
+        color: var(--titles-color);
+        font-size: 0.8125em;
+    }
+
+    &__error {
+        color: #d63638;
+    }
+
+    &--page {
+        max-width: none;
+        margin: 0;
+
+        & > .worksSearch__results {
+            position: static;
+            top: auto;
+            left: auto;
+            right: auto;
+            width: 100%;
+            max-height: none;
+            border: 0;
+            background: transparent;
+            overflow: visible;
+        }
+
+        .worksSearch__content {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .worksSearch__item + * {
+            margin-top: 0;
+        }
+    }
+}

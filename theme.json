@@ -1,0 +1,64 @@
+{
+    "version": 2,
+    "settings": {
+        "color": {
+            "palette": [
+                {
+                    "color": "#ffffff",
+                    "name": "white",
+                    "slug": "white"
+                },
+                {
+                    "color": "#EEEDE8",
+                    "name": "Soft Ivory",
+                    "slug": "Soft_Ivory"
+                },
+                {
+                    "color": "#E2DFD7",
+                    "name": "Warm Off White",
+                    "slug": "Warm_Off-White"
+                },
+                {
+                    "color": "#B2B1AC",
+                    "name": "Greige",
+                    "slug": "Greige"
+                },
+                {
+                    "color": "#BEB3A5",
+                    "name": "Warm Taupe",
+                    "slug": "Warm_Taupe"
+                },
+                {
+                    "color": "#82A49C",
+                    "name": "Muted Teal",
+                    "slug": "Muted_Teal"
+                },
+                {
+                    "color": "#284A42",
+                    "name": "Heavy Green",
+                    "slug": "heavy_green"
+                },
+                {
+                    "color": "#286052",
+                    "name": "Green Active",
+                    "slug": "green_active"
+                },
+                {
+                    "color": "#5C6567",
+                    "name": "Slate Gray",
+                    "slug": "Slate_Gray"
+                },
+                {
+                    "color": "#B35757",
+                    "name": "Error",
+                    "slug": "error_ie"
+                },
+                {
+                    "color": "#FBEFEF",
+                    "name": "Error Light",
+                    "slug": "error_light_ie"
+                }
+            ]
+        }
+    }
+}

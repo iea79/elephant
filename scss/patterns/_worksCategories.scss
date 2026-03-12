@@ -1,0 +1,80 @@
+.worksCategories {
+    flex: none;
+    display: flex;
+    gap: 0.625em;
+    margin: 0.7em -0.7em 2em !important;
+    padding: 0 0.7em;
+    overflow: auto;
+    width: calc(100% + 1.4em);
+
+    @media (min-width: 480px) {
+        margin: 0.2em -0.7em 1em !important;
+    }
+
+    @media (min-width: 768px) {
+        width: 100%;
+        margin: 0.65em 0 1.2em !important;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    // Скрываем полосу прокрутки, прокрутка остаётся
+    & {
+        scrollbar-width: none; // Firefox
+        -ms-overflow-style: none; // Internet Explorer 10+
+    }
+    &::-webkit-scrollbar {
+        display: none; // Safari and Chrome
+    }
+
+    &__item {
+        border-radius: 0.125em;
+        overflow: hidden;
+        flex: none;
+        width: 15.8em;
+        aspect-ratio: 1 / 1;
+        position: relative;
+        display: flex;
+
+        @media (min-width: 480px) {
+            width: 10.8em;
+        }
+
+        @media (min-width: 768px) {
+            flex: 1;
+            aspect-ratio: 2 / 1;
+            width: 33.3%;
+        }
+    }
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        flex-grow: 1;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    &__title {
+        margin: 0;
+        color: #fff;
+        font-size: 0.55em;
+        position: absolute;
+        text-transform: uppercase;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 1.3em 1em;
+
+        @media (min-width: 768px) {
+            font-size: 0.875em;
+            padding: 1.1em 1.3em;
+        }
+    }
+}

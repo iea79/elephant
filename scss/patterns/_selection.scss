@@ -1,0 +1,80 @@
+.selection {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 8.4em;
+
+    @media (min-width: 480px) {
+        margin-bottom: 3.8em;
+    }
+
+    @media (min-width: 768px) {
+        margin-bottom: 7.1em;
+    }
+
+    > *:not(.worksCategories) {
+        width: 100%;
+    }
+
+    > .worksCategories {
+        @media (max-width: 767px) {
+            margin-left: -0.7em !important;
+        }
+    }
+
+    &__text {
+        @media (min-width: 768px) {
+            max-width: 44.5em;
+        }
+        > * {
+            font-size: 0.95em;
+            margin: 0 !important;
+            line-height: 1.4;
+
+            @media (min-width: 480px) {
+                font-size: 0.55em;
+                line-height: 1.3;
+            }
+
+            @media (min-width: 768px) {
+                font-size: 0.8125em;
+                line-height: 1.6;
+            }
+
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__bottom {
+        @media (max-width: 480px) {
+            flex-direction: column;
+        }
+    }
+
+    .wp-block-buttons {
+        @media (max-width: 767px) {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            width: 100%;
+            margin-top: 0.9em;
+
+            .wp-block-button {
+                width: 100%;
+            }
+
+            .wp-element-button {
+                width: 100%;
+                font-size: 1em;
+                padding: 0.8em;
+            }
+        }
+    }
+}

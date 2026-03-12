@@ -1,0 +1,28 @@
+{
+    "apiVersion": 2,
+    "name": "sws/steps",
+    "title": "Шаги",
+    "category": "common",
+    "icon": "editor-ol",
+    "description": "Секция шагов с картинкой, заголовком и текстом.",
+    "keywords": ["steps", "шаги", "process"],
+    "textdomain": "sws",
+    "attributes": {
+        "steps": {
+            "type": "array",
+            "default": [
+                { "imageId": 0, "title": "", "text": "" },
+                { "imageId": 0, "title": "", "text": "" },
+                { "imageId": 0, "title": "", "text": "" },
+                { "imageId": 0, "title": "", "text": "" }
+            ]
+        }
+    },
+    "supports": {
+        "align": true,
+        "html": false,
+        "multiple": true,
+        "reusable": true
+    }
+}
+

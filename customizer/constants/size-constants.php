@@ -1,0 +1,8 @@
+<?php
+define('CONTENT_SIZE', 67.375);
+define('CONTENT_PADDING', 1);
+define('CONTENT_PADDING_MOBILE', 1);
+define('HEADER_WIDTH', 77.625);
+define('HEADER_LOGO_HEIGHT', 28);
+define('FOOTER_WIDTH', 77.625);
+define('FOOTER_LOGO_HEIGHT', 28);

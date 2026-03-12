@@ -1,0 +1,85 @@
+.posts {
+    margin-bottom: 7.1em;
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.675em;
+
+        .block-editor-block-list__block {
+            padding: 0 !important;
+            width: 100%;
+
+            .posts__item {
+                width: 100% !important;
+            }
+        }
+
+        .wp-block-group {
+            padding: 0 !important;
+        }
+
+        .wp-block-post-excerpt__more-text {
+            text-transform: uppercase;
+            font-size: 0.75em;
+            color: #284a42;
+            border-bottom: 1px dotted;
+            display: inline-block;
+            line-height: 1;
+            font-weight: 700;
+            margin-top: 1.25em;
+            cursor: pointer;
+
+            &:hover {
+                border-bottom-color: transparent;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+    }
+
+    &__item {
+        width: calc(25% - 1em);
+
+        .wp-block-post & {
+            width: 100%;
+        }
+    }
+
+    &__img {
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        border-radius: 0.125em;
+        margin-bottom: 1.25em;
+        display: block;
+
+        img {
+            display: block;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__title {
+        color: var(--titles-color);
+        font-family: var(--titles-font);
+        text-transform: uppercase;
+        line-height: 1.1;
+        font-size: 0.9em;
+        margin-bottom: 0.5em;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    &__text {
+        font-size: 0.8125em;
+        line-height: 1.6;
+        color: var(--color-main);
+    }
+}

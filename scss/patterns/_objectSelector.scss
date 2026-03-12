@@ -1,0 +1,70 @@
+.objectSelector {
+    display: flex;
+    gap: 0.625em;
+    font-size: 1.2em;
+    height: 5.3em;
+    padding-bottom: 2.7em;
+
+    @media (min-width: 480px) {
+        font-size: 1em;
+        margin-bottom: 0;
+        height: auto;
+    }
+
+    @media (min-width: 768px) {
+        width: 29.7em;
+    }
+
+    &__input {
+        width: 100%;
+        &_wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+        }
+    }
+    &__results {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        color: #fff;
+        max-height: 30em;
+        border: 1px solid #eeede8;
+        border-radius: 0.125em;
+        z-index: 10;
+    }
+    &__result {
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.75em;
+        line-height: 1.2;
+        color: var(--color-main);
+        text-transform: uppercase;
+        padding: 1.06em 0.76em;
+
+        &:hover {
+            background: #e2dfd7;
+        }
+
+        &:nth-child(n + 2) {
+            margin-top: 0.5em;
+        }
+    }
+    &__button {
+        margin: 0.0625em 0;
+        width: 3.2em;
+        // height: 2.5em;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: stretch;
+
+        @media (min-width: 480px) {
+            width: 2.5em;
+        }
+    }
+}

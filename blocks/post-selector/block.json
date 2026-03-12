@@ -1,0 +1,30 @@
+{
+    "apiVersion": 2,
+    "name": "sws/post-selector",
+    "title": "Выбор объекта",
+    "category": "common",
+    "icon": "admin-post",
+    "description": "Блок с инпутом для поиска постов типа works и кнопкой.",
+    "keywords": ["post", "selector", "search"],
+    "textdomain": "sws",
+    "attributes": {
+        "selectedPostId": {
+            "type": "number",
+            "default": 0
+        },
+        "buttonLabel": {
+            "type": "string",
+            "default": "Перейти"
+        },
+        "placeholder": {
+            "type": "string",
+            "default": "выберите направление"
+        }
+    },
+    "supports": {
+        "align": true,
+        "html": false,
+        "multiple": true,
+        "reusable": true
+    }
+}

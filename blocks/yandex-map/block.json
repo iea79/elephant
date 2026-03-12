@@ -1,0 +1,40 @@
+{
+  "apiVersion": 2,
+  "name": "sws/yandex-map",
+  "title": "Яндекс карта",
+  "category": "widgets",
+  "icon": "location-alt",
+  "description": "Карта Яндекса по адресу с настраиваемым маркером.",
+  "textdomain": "sws",
+  "attributes": {
+    "address": {
+      "type": "string",
+      "default": ""
+    },
+    "markerId": {
+      "type": "number",
+      "default": 0
+    },
+    "zoom": {
+      "type": "number",
+      "default": 16
+    },
+    "height": {
+      "type": "number",
+      "default": 360
+    },
+    "apiKey": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "align": true,
+    "html": false,
+    "multiple": true,
+    "reusable": true
+  },
+  "editorScript": "sws-yandex-map-editor",
+  "script": "sws-yandex-map-front"
+}
+

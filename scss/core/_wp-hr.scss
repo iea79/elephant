@@ -1,0 +1,14 @@
+hr,
+.wp-block-separator {
+    border-top-width: var(--hr-weight);
+    border-color: var(--hr-color);
+    margin: var(--hr-margin) 0;
+
+    &.is-style-dots {
+        padding: 0;
+
+        &:before {
+            color: var(--hr-color);
+        }
+    }
+}

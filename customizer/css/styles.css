@@ -1,0 +1,106 @@
+/**
+ * Customizer controls styles
+ *
+ * @package frondendie
+ */
+
+.sortable-list-control .sortable-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border: 1px solid #ddd;
+	overflow-y: auto;
+}
+
+.sortable-list-control .sortable-list-item {
+	padding: 10px 15px;
+	border-bottom: 1px solid #eee;
+	cursor: move;
+	position: relative;
+}
+
+.sortable-list-control .sortable-list-item:hover {
+	background: #f9f9f9;
+}
+
+.sortable-list-control .sortable-list-item .dashicons-move {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #999;
+}
+
+.sortable-list-control .sortable-list-item label {
+	display: block;
+	padding-left: 25px;
+	cursor: move;
+}
+
+.sortable-list-control .sortable-list-item input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+.sortable-list-control .sortable-list-item .sortable-list-item-link {
+	width: calc(100% - 25px);
+	padding: 5px;
+	margin-top: 5px;
+	margin-left: 25px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	font-size: 12px;
+}
+
+.sortable-list-control .sortable-list-item.ui-sortable-helper {
+	background: #f0f0f0;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	z-index: 10;
+}
+
+.wp-full-overlay-sidebar-content input[type="number"] {
+	width: 150px;
+}
+
+.customize-control-range-wrap {
+	display: flex;
+	align-items: center;
+}
+
+.customize-control-range-wrap input {
+	flex-grow: 1;
+	min-width: 0;
+}
+
+.customize-loader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+	width: fit-content;
+	font-weight: bold;
+	font-family: monospace;
+	font-size: 30px;
+	clip-path: inset(0 3ch 0 0);
+	animation: dottedAnim 1s steps(4) infinite;
+	color: #fff;
+}
+
+.loader:before {
+	content: "Загрузка..."
+}
+
+@keyframes dottedAnim {
+	to {
+		clip-path: inset(0 -1ch 0 0)
+	}
+}

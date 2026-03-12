@@ -1,0 +1,153 @@
+// Стили для блока "Слайдер для главной"
+.homeSlider {
+    position: relative;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+    min-width: 0;
+    display: flex;
+
+    &.slick-initialized {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .slick {
+        &-list {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-track {
+            height: 100%;
+            display: flex;
+        }
+    }
+
+    &__slide {
+        outline: none;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+    // Кастомизация точек (дотсов)
+    .slick-dots {
+        position: absolute;
+        bottom: 0.625em;
+        left: 0.4375em;
+        width: calc(100% - 0.875em);
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        z-index: 10;
+        gap: 0.1875em;
+
+        li {
+            display: flex;
+            flex-direction: row-reverse;
+            flex-grow: 1;
+            background: #fff;
+
+            button {
+                // flex-grow: 1;
+                // width: 100%;
+                height: 0.25em;
+                border: none;
+                text-indent: -9999px;
+                cursor: pointer;
+                padding: 0;
+                width: 0;
+                background: var(--bg-second);
+                animation: animationDottReverse var(--home-slider-autoplay-speed);
+
+                &:hover {
+                    background: #fff;
+                }
+            }
+            &.slick-active {
+                flex-direction: row;
+                button {
+                    animation: animationDott var(--home-slider-autoplay-speed);
+                }
+            }
+        }
+    }
+
+    // Кастомизация стрелок (если включены)
+    .slick-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: #fff;
+        font-size: 0;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        &:before {
+            content: '';
+            display: block;
+            width: 0.625em;
+            height: 0.625em;
+            border-left: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        &.slick-prev {
+            left: 20px;
+            &:before {
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+        }
+
+        &.slick-next {
+            right: 20px;
+            &:before {
+                transform: translate(-50%, -50%) rotate(-135deg);
+            }
+        }
+    }
+}
+
+@keyframes animationDott {
+    0% {
+        width: 0;
+    }
+    90% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes animationDottReverse {
+    // 0% {
+    //     width: 100%;
+    // }
+    // 100% {
+    //     width: 0;
+    // }
+}

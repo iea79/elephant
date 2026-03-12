@@ -1,0 +1,159 @@
+.firstScreen.wp-block-columns {
+    gap: 0.625em;
+    margin-bottom: 8em;
+
+    @media (min-width: 480px) {
+        margin-top: 0em;
+        margin-bottom: 3.24em;
+    }
+
+    @media (min-width: 768px) {
+        margin-top: 5.9em;
+        margin-bottom: 7em;
+    }
+
+    .firstScreen__img {
+        flex: none;
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 27.7em;
+        position: static;
+
+        @media (min-width: 480px) {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 8em;
+            height: 9.1em;
+        }
+
+        @media (min-width: 768px) {
+            position: static;
+            width: 27em;
+            height: 31.125em;
+        }
+
+        @media (max-width: 480px) {
+            .slick-dots {
+                bottom: 3.7em;
+            }
+
+            &:after {
+                content: 'ELEPHANT';
+                font-family: var(--titles-font);
+                display: block;
+                position: absolute;
+                bottom: 0;
+                z-index: 10;
+                color: #fff;
+                font-size: 3.95em;
+                line-height: 0.6;
+                white-space: nowrap;
+                margin-left: -0.01em;
+            }
+        }
+    }
+
+    figure.firstScreen__slider.wp-block-gallery {
+        position: relative;
+        display: block;
+        flex-grow: 1;
+        margin: 0;
+
+        figure.wp-block-image {
+            margin: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .firstScreen__content.wp-block-column.is-layout-flow {
+        @media (min-width: 480px) {
+            background: url(../img/elephant-bg.svg) bottom right no-repeat;
+            background-size: calc(100% - 8.6em) auto;
+        }
+
+        @media (min-width: 768px) {
+            background-size: 100%;
+            padding-bottom: 15.5625em;
+        }
+    }
+    .firstScreen__sub {
+        font-size: 0.87em;
+        text-transform: uppercase;
+        margin: -0.3em 0 1.1em;
+
+        @media (min-width: 480px) {
+            font-size: 0.59em;
+            margin: -0.3em 0 1.2em;
+        }
+
+        @media (min-width: 768px) {
+            font-size: 0.75em;
+            margin: -0.3em 0 0.9em;
+        }
+    }
+    .firstScreen__title {
+        font-size: 1.95em;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        text-transform: uppercase;
+        margin: 0 0 0.8em;
+        font-weight: normal;
+        br {
+            display: none;
+        }
+
+        @media (min-width: 480px) {
+            font-size: 1.32em;
+        }
+
+        @media (min-width: 768px) {
+            font-size: 2.125em;
+            br {
+                display: block;
+            }
+        }
+    }
+    .firstScreen__text {
+        font-size: 0.9em;
+        line-height: 1.6;
+        margin: 3.6em 0 0.9em;
+        min-width: 0;
+        flex-grow: 1;
+
+        @media (min-width: 480px) {
+            font-size: 0.52em;
+            line-height: 1.5;
+            margin: 0 0 0.7em;
+        }
+
+        @media (min-width: 768px) {
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.8125em;
+        }
+    }
+
+    .firstScreen__search {
+        position: relative;
+        max-width: 100%;
+        flex: none;
+        display: block;
+
+        @media (min-width: 480px) {
+            padding-left: 8.6em;
+            height: 9.1em;
+        }
+
+        @media (min-width: 768px) {
+            display: flex;
+            padding-left: 0;
+            height: auto;
+        }
+    }
+}

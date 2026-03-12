@@ -1,0 +1,15 @@
+.page {
+    &__title {
+        font-size: 1.87em;
+        font-family: var(--page-title-font);
+        text-transform: uppercase;
+
+        @media (min-width: 480px) {
+            font-size: var(--page-title-size-mobile);
+        }
+
+        @media (min-width: 768px) {
+            font-size: var(--page-title-size);
+        }
+    }
+}

@@ -1,0 +1,79 @@
+// Main wrappers =====================================
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    margin: 0 !important;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    color: var(--color-main);
+    background-color: var(--bg-main);
+    font-size: calc(0.034 * var(--font-size-mobile) * 100vw + 0px);
+    font-family: var(--font-family-main);
+    line-height: var(--font-line-height);
+
+    @media (min-width: 768px) {
+        font-size: calc(0.008338 * var(--font-size) * 100vw + 0px);
+    }
+
+    // Фикс для админ панели после авторизации
+    &.admin-bar {
+        padding-top: 46px;
+
+        @media (min-width: 768px) {
+            padding-top: 32px;
+        }
+    }
+}
+
+a:not([class]) {
+    color: var(--links-color);
+
+    &:hover {
+        color: var(--links-color-hover);
+    }
+}
+
+.main {
+    flex-grow: 1;
+    padding: 0;
+}
+
+/* Middle
+ ----------------------------------------------------------------------------- */
+
+.container_center {
+    max-width: var(--content-size);
+    padding: 0 0.7em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+
+    @media (min-width: 480px) {
+        padding: 0 var(--content-padding-mobile);
+    }
+
+    @media (min-width: 768px) {
+        padding: 0 var(--content-padding);
+    }
+}
+
+.desktop {
+    @media (max-width: 767px) {
+        display: none !important;
+    }
+}
+
+.mobile {
+    @media (min-width: 768px) {
+        display: none !important;
+    }
+}

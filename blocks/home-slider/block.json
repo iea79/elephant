@@ -1,0 +1,46 @@
+{
+    "apiVersion": 2,
+    "name": "sws/home-slider",
+    "title": "Слайдер для главной",
+    "category": "common",
+    "icon": "slides",
+    "description": "Простая листалка картинок в автоматическом режиме с дотсами и без стрелок.",
+    "keywords": ["slider", "gallery", "carousel", "images"],
+    "textdomain": "sws",
+    "attributes": {
+        "images": {
+            "type": "array",
+            "default": []
+        },
+        "autoplay": {
+            "type": "boolean",
+            "default": true
+        },
+        "autoplaySpeed": {
+            "type": "number",
+            "default": 3000
+        },
+        "dots": {
+            "type": "boolean",
+            "default": true
+        },
+        "arrows": {
+            "type": "boolean",
+            "default": false
+        },
+        "fade": {
+            "type": "boolean",
+            "default": false
+        },
+        "speed": {
+            "type": "number",
+            "default": 500
+        }
+    },
+    "supports": {
+        "align": true,
+        "html": false,
+        "multiple": true,
+        "reusable": true
+    }
+}

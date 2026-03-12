@@ -1,0 +1,43 @@
+.wp-block-table table,
+table:not(.smart-cf-meta-box-table table) {
+    border-collapse: collapse;
+    background: var(--table-bg);
+    color: var(--table-color);
+    border: var(--table-border-width) solid var(--table-border-color);
+    border-radius: var(--table-border-radius);
+
+    thead {
+        border: 0;
+
+        th,
+        td {
+            background: var(--table-header-bg);
+            color: var(--table-header-color);
+            text-align: var(--table-header-align);
+            border: var(--table-border-width) solid var(--table-border-color);
+        }
+    }
+
+    tfoot {
+        border: 0;
+        font-weight: 600;
+    }
+
+    th,
+    td {
+        padding: 0.625em;
+        text-align: left;
+    }
+}
+
+.wp-block-table.is-style-stripes {
+    tbody {
+        tr:nth-child(odd) {
+            td,
+            th {
+                background: var(--table-stripe-color);
+                border-color: var(--table-stripe-color);
+            }
+        }
+    }
+}
