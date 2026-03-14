@@ -70,15 +70,15 @@ function sws_render_work_single_gallery_block($attributes)
                     }
                     ?>
                     <div class="workSingle__slide">
-                        <a href="<?php echo esc_url($full_url); ?>"
-                           class="workSingle__slideLink"
-                           data-fancybox="work-gallery">
+                        <div class="workSingle__slideLink">
                             <img src="<?php echo esc_url($full_url); ?>"
                                  alt="<?php echo esc_attr($alt); ?>">
-                            <span class="workSingle__zoom">
+                            <span class="workSingle__zoom"
+                                  role="button"
+                                  tabindex="0">
                                 <span class="ie-icon_zoom"></span>
                             </span>
-                        </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

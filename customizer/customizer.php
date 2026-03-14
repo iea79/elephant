@@ -108,12 +108,12 @@ function sws_customize_register($wp_customize)
 			'title_tagline' => array(
 				'default' => null,
 				'controls' => array(
-					'footer_logo' => array(
-						'control' => array(
-							'label' => 'Логотип в футере',
-							'type' => 'media',
-						),
-					),
+					// 'footer_logo' => array(
+					// 	'control' => array(
+					// 		'label' => 'Логотип в футере',
+					// 		'type' => 'media',
+					// 	),
+					// ),
 				),
 			),
 			'static_front_page' => get_static_front_page_controls(),

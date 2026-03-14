@@ -38,9 +38,14 @@ function custom_post_works()
 		'show_in_menu' => true,
 		'menu_icon' => 'dashicons-portfolio',
 		'show_in_rest' => true,
-		'query_var' => true,
-		'has_archive' => WORKS_PAGE_SLUG,
-		'rewrite' => array('slug' => WORKS_PAGE_SLUG),
+		'query_var'    => true,
+		// CPT архив по адресу /{WORKS_PAGE_SLUG}
+		'has_archive'  => WORKS_PAGE_SLUG,
+		// Синглы под /{WORKS_PAGE_SLUG}/{post_name}
+		'rewrite'      => array(
+			'slug'       => WORKS_PAGE_SLUG,
+			'with_front' => false,
+		),
 		'capability_type' => 'post',
 		'hierarchical' => false,
 		'exclude_from_search' => false,
@@ -87,7 +92,7 @@ function custom_post_information()
 		'rewrite'            => array('slug' => 'information', 'with_front' => false),
 		'capability_type'    => 'page',
 		'hierarchical'       => false,
-		'exclude_from_search'=> false,
+		'exclude_from_search' => false,
 		'menu_position'      => 6,
 		'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
 		'taxonomies'         => array(),
@@ -121,7 +126,13 @@ function custom_post_works_category()
 		'hierarchical' => true,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => WORKS_PAGE_SLUG),
+		// Отдельная база таксономии, не под /{WORKS_PAGE_SLUG}, чтобы исключить конфликты
+		// URL: /{WORKS_PAGE_SLUG}-category/parent/child
+		'rewrite' => array(
+			'slug'         => 'real-property',
+			'hierarchical' => true,
+			'with_front'   => false,
+		),
 		'show_admin_column' => true,
 		'show_in_rest' => true
 	);
@@ -152,7 +163,8 @@ function custom_post_works_tags()
 		'hierarchical' => false,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => WORKS_PAGE_SLUG . '/svoistvo'),
+		// /{WORKS_PAGE_SLUG}/svoistvo/term
+		'rewrite' => false,
 		'show_admin_column' => true,
 		'show_in_rest' => true
 	);
@@ -184,14 +196,17 @@ function custom_post_works_directions()
 		'hierarchical' => false,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array('slug' => WORKS_PAGE_SLUG . '/napravlenie'),
+		// /{WORKS_PAGE_SLUG}/napravlenie/term
+		'rewrite' => array(
+			'slug'       => 'directions',
+			'with_front' => false,
+		),
 		'show_admin_column' => true,
 		'show_in_rest' => true
 	);
 
 	register_taxonomy('works_directions', 'works', $args);
 }
-
 
 /**
  * Meta-настройка: привязка направления к родительской категории works_category
@@ -291,6 +306,8 @@ function works_directions_save_parent_category_field($term_id, $tt_id)
 		update_term_meta($term_id, 'works_show_in_filter', '0');
 	}
 }
+
+// Доп. поля таксономий works_* теперь задаются через SCF (см. scf/pages/works-taxonomies.php)
 
 /**
  * ID направлений, которые показываются в фильтре для данной родительской категории.

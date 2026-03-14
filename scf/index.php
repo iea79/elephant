@@ -7,6 +7,7 @@ if (class_exists('SCF')) {
 	require_once get_template_directory() . '/scf/custom/sections.php';
 
 	require_once get_template_directory() . '/scf/pages/work.php';
+	require_once get_template_directory() . '/scf/pages/works-taxonomies.php';
 }
 
 function sws_scf_enqueue_scripts()

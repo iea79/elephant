@@ -100,11 +100,7 @@ if (!function_exists('sws_work_sotki_label')) {
 			$work_categories = get_the_terms(get_the_ID(), 'works_category');
 			if (!empty($work_categories) && !is_wp_error($work_categories)) :
 				$main_category = reset($work_categories);
-				$category_url  = add_query_arg(
-					'category',
-					$main_category->slug,
-					get_permalink(WORKS_PAGE_ID)
-				);
+				$category_url  = get_term_link($main_category, 'works_category');
 			?>
 				<a href="<?php echo esc_url($category_url); ?>" class="btn btn_success btn_small">
 					<?php echo esc_html($main_category->name); ?>
@@ -120,12 +116,12 @@ if (!function_exists('sws_work_sotki_label')) {
 							<div class="workSingle__slider js-workSingle-main">
 								<?php foreach ($gallery_items as $image) : ?>
 									<div class="workSingle__slide">
-										<a href="<?php echo esc_url($image['full']); ?>" class="workSingle__slideLink" data-fancybox="work-gallery">
+										<div class="workSingle__slideLink">
 											<img src="<?php echo esc_url($image['full']); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
-											<span class="workSingle__zoom">
+											<span class="workSingle__zoom" role="button" tabindex="0">
 												<span class="ie-icon_zoom"></span>
 											</span>
-										</a>
+										</div>
 									</div>
 								<?php endforeach; ?>
 							</div>
@@ -282,7 +278,12 @@ if (!function_exists('sws_work_sotki_label')) {
 				<div class="workSingle__bottom">
 					<?php if ($work_price !== '' && $work_price !== null) : ?>
 						<div class="workSingle__row workSingle__row--price">
-							<div class="workSingle__value"><?php echo esc_html(number_format_i18n($work_price, 0)); ?> ₽</div>
+							<div class="workSingle__value">
+								<?php echo esc_html(number_format_i18n($work_price, 0)); ?>
+								<svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="rub">
+									<path d="M1.675 17.85V0H7.85C10.1167 0 11.8083 0.491667 12.925 1.475C14.0583 2.45833 14.625 3.85833 14.625 5.675C14.625 6.70833 14.4083 7.68333 13.975 8.6C13.5583 9.5 12.8583 10.2333 11.875 10.8C10.8917 11.3667 9.55 11.6583 7.85 11.675H6.5V17.85H1.675ZM0 16.25V13.325H9.625V16.25H0ZM0 11.675V7.75H7.325V11.675H0ZM7.375 7.75C7.79167 7.75 8.175 7.675 8.525 7.525C8.89167 7.375 9.18333 7.15 9.4 6.85C9.63333 6.53333 9.75 6.15 9.75 5.7C9.75 5.13333 9.59167 4.69167 9.275 4.375C8.95833 4.05833 8.45 3.9 7.75 3.9H6.5V7.75H7.375Z" fill="#284A42" />
+								</svg>
+							</div>
 						</div>
 					<?php endif; ?>
 
@@ -303,7 +304,7 @@ if (!function_exists('sws_work_sotki_label')) {
 							</a>
 						<?php endif; ?>
 
-						<button type="button" class="btn btn_secondary workSingle__btn workSingle__btn--secondary" data-toggle="modal" data-target="#getQuestion">
+						<button type="button" class="btn btn_secondary workSingle__btn workSingle__btn--secondary" data-toggle="modal" data-target="#getConsult">
 							Записаться на просмотр
 						</button>
 					</div>

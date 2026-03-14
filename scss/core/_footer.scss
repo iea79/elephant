@@ -169,6 +169,10 @@
         gap: 3.9375em;
         flex-wrap: wrap;
         justify-content: center;
+
+        @media (min-width: 768px) {
+            margin-left: 17.7em;
+        }
     }
 
     &__slogan {

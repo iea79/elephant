@@ -16,6 +16,7 @@
 
         @media (min-width: 768px) {
             align-items: stretch !important;
+            flex-wrap: nowrap;
         }
 
         > .wp-block-column {

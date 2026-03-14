@@ -4,7 +4,7 @@
     &__list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.675em;
+        gap: 2.5em 0.675em;
 
         .block-editor-block-list__block {
             padding: 0 !important;
@@ -42,7 +42,15 @@
     }
 
     &__item {
-        width: calc(25% - 1em);
+        width: 100%;
+
+        @media (min-width: 480px) {
+            width: calc(50% - 0.5em);
+        }
+
+        @media (min-width: 768px) {
+            width: calc(25% - 1em);
+        }
 
         .wp-block-post & {
             width: 100%;
@@ -55,8 +63,9 @@
         border-radius: 0.125em;
         margin-bottom: 1.25em;
         display: block;
+        display: flex;
 
-        img {
+        > img {
             display: block;
             object-fit: cover;
             width: 100%;

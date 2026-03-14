@@ -84,15 +84,9 @@ function sws_render_home_slider_block($attributes)
         return '<p>' . esc_html__('Изображения не выбраны.', 'sws') . '</p>';
     }
 
-    // Получаем URL изображений
-    $image_urls = array_map(function ($id) {
-        return wp_get_attachment_image_url($id, 'large');
-    }, $images);
-
-    // Убираем пустые
-    $image_urls = array_filter($image_urls);
-
-    if (empty($image_urls)) {
+    // Фильтруем корректные ID
+    $image_ids = array_filter(array_map('intval', (array) $images));
+    if (empty($image_ids)) {
         return '<p>' . esc_html__('Нет доступных изображений.', 'sws') . '</p>';
     }
 
@@ -105,9 +99,23 @@ function sws_render_home_slider_block($attributes)
         data-arrows="<?php echo esc_attr($arrows ? 'true' : 'false'); ?>"
         data-fade="<?php echo esc_attr($fade ? 'true' : 'false'); ?>"
         data-speed="<?php echo esc_attr($speed); ?>">
-        <?php foreach ($image_urls as $url) : ?>
+        <?php foreach ($image_ids as $image_id) : ?>
+            <?php
+            $image_html = wp_get_attachment_image(
+                $image_id,
+                'large',
+                false,
+                array(
+                    'class'   => 'homeSlider__image',
+                    'loading' => 'lazy',
+                )
+            );
+            if (!$image_html) {
+                continue;
+            }
+            ?>
             <div class="homeSlider__slide">
-                <img src="<?php echo esc_url($url); ?>" alt="<?php echo esc_attr__('Слайд', 'sws'); ?>" class="homeSlider__image" />
+                <?php echo $image_html; ?>
             </div>
         <?php endforeach; ?>
     </div>

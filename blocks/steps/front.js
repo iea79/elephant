@@ -17,6 +17,26 @@
 
         gsap.registerPlugin(ScrollTrigger);
 
+        // Сохраняем скролл при открытии модалки, восстанавливаем после refresh ScrollTrigger
+        // (иначе при смене модалок скролл уезжает вверх)
+        var savedScrollY = 0;
+        var body = document.body;
+        if (body && typeof MutationObserver !== 'undefined') {
+            var obs = new MutationObserver(function () {
+                if (body.classList.contains('modal-open')) {
+                    savedScrollY = window.scrollY || window.pageYOffset;
+                }
+            });
+            obs.observe(body, { attributes: true, attributeFilter: ['class'] });
+            ScrollTrigger.addEventListener('refresh', function () {
+                if (body.classList.contains('modal-open') && savedScrollY > 0) {
+                    requestAnimationFrame(function () {
+                        window.scrollTo(0, savedScrollY);
+                    });
+                }
+            });
+        }
+
         // Для мобильных (<768) отключаем фиксацию (pin),
         // оставляем только переключение активного класса.
         var isMobile = window.innerWidth < 768;

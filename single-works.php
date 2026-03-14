@@ -61,13 +61,8 @@ $porfolioPageId = (int)get_theme_mod('portfolio_page');
 
 						if (!empty($subcategories) && !is_wp_error($subcategories)) {
 							foreach ($subcategories as $subcategory) {
-								// Ссылка ведёт на архив работ с нужным параметром категории,
-								// по аналогии с фильтром в архиве works.
-								$url = add_query_arg(
-									'category',
-									$subcategory->slug,
-									get_permalink(WORKS_PAGE_ID)
-								);
+								// Прямая ссылка на архив таксономии works_category.
+								$url = get_term_link($subcategory, 'works_category');
 								echo '<a href="' . esc_url($url) . '" class="works__subcategory btn btn_success btn_small' . ($subcategory->term_id == $current_category_id ? ' is-active' : '') . '">';
 								echo esc_html($subcategory->name);
 								echo '</a>';

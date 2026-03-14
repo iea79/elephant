@@ -64,26 +64,31 @@ function sws_render_works_categories_block($attributes)
         <?php foreach ($categories as $cat) : ?>
             <?php
             $term_id = $cat['id'] ?? 0;
-            $image_id = $cat['imageId'] ?? 0;
-            $term = get_term($term_id, 'works_category');
+            $image_id = isset($cat['imageId']) ? (int) $cat['imageId'] : 0;
+            $term = $term_id ? get_term($term_id, 'works_category') : null;
             if (!$term || is_wp_error($term)) {
                 continue;
             }
             $term_name = $term->name;
-            // Ссылка ведёт на архив работ с параметром категории,
-            // по аналогии с блоком works__featuredSub (single-works.php).
-            $term_link = add_query_arg(
-                'category',
-                $term->slug,
-                get_permalink(WORKS_PAGE_ID)
-            );
-            $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'medium') : '';
+            // Прямая ссылка на архив таксономии works_category.
+            $term_link = get_term_link($term, 'works_category');
             ?>
             <div class="worksCategories__item">
                 <a href="<?php echo esc_url($term_link); ?>" class="worksCategories__link">
-                    <?php if ($image_url) : ?>
-                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($term_name); ?>" class="worksCategories__image" />
-                    <?php endif; ?>
+                    <?php
+                    if ($image_id) {
+                        echo wp_get_attachment_image(
+                            $image_id,
+                            'medium',
+                            false,
+                            array(
+                                'class'   => 'worksCategories__image',
+                                'loading' => 'lazy',
+                                'alt'     => $term_name,
+                            )
+                        );
+                    }
+                    ?>
                     <h3 class="worksCategories__title"><?php echo esc_html($term_name); ?></h3>
                 </a>
             </div>

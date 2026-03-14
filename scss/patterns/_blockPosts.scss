@@ -57,9 +57,15 @@
             &__list {
                 display: flex;
                 flex-wrap: nowrap;
+                overflow: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
 
-            &__item {
+            &__item.wp-block-group {
                 width: 18.44em;
                 flex: none;
             }

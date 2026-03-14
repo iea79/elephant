@@ -16,22 +16,36 @@ if (is_array($work_gallery)) {
 	<a href="<?php echo get_permalink(); ?>" class="works__itemImage">
 		<?php if ($has_gallery) : ?>
 			<?php
-			$image_urls = array();
+			$image_ids = array();
 			foreach ($work_gallery as $gallery_item) {
 				if (empty($gallery_item['work_galery_item'])) {
 					continue;
 				}
-				$img_url = wp_get_attachment_image_url($gallery_item['work_galery_item'], 'large');
-				if ($img_url) {
-					$image_urls[] = $img_url;
+				$image_id = (int) $gallery_item['work_galery_item'];
+				if ($image_id > 0) {
+					$image_ids[] = $image_id;
 				}
 			}
 			?>
-			<?php if (!empty($image_urls)) : ?>
+			<?php if (!empty($image_ids)) : ?>
 				<div class="homeSlider works__itemGallery" data-autoplay="true" data-autoplay-speed="3000" data-dots="true" data-arrows="false" data-fade="false" data-speed="500">
-					<?php foreach ($image_urls as $url) : ?>
+					<?php foreach ($image_ids as $image_id) : ?>
+						<?php
+						$image_html = wp_get_attachment_image(
+							$image_id,
+							'large',
+							false,
+							array(
+								'class'   => 'homeSlider__image',
+								'loading' => 'lazy',
+							)
+						);
+						if (!$image_html) {
+							continue;
+						}
+						?>
 						<div class="homeSlider__slide">
-							<img src="<?php echo esc_url($url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="homeSlider__image" />
+							<?php echo $image_html; ?>
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -124,7 +138,16 @@ if (is_array($work_gallery)) {
 
 		<div class="works__itemFoot">
 			<div class="works__itemPrice">
-				<?php echo esc_html($work_price !== '' ? $work_price  : 'цена'); ?> ₽
+				<?php
+				if ($work_price !== '' && $work_price !== null) :
+					echo esc_html(number_format_i18n((float) $work_price, 0));
+				else :
+					echo esc_html('цена');
+				endif;
+				?>
+				<svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="rub">
+					<path d="M1.675 17.85V0H7.85C10.1167 0 11.8083 0.491667 12.925 1.475C14.0583 2.45833 14.625 3.85833 14.625 5.675C14.625 6.70833 14.4083 7.68333 13.975 8.6C13.5583 9.5 12.8583 10.2333 11.875 10.8C10.8917 11.3667 9.55 11.6583 7.85 11.675H6.5V17.85H1.675ZM0 16.25V13.325H9.625V16.25H0ZM0 11.675V7.75H7.325V11.675H0ZM7.375 7.75C7.79167 7.75 8.175 7.675 8.525 7.525C8.89167 7.375 9.18333 7.15 9.4 6.85C9.63333 6.53333 9.75 6.15 9.75 5.7C9.75 5.13333 9.59167 4.69167 9.275 4.375C8.95833 4.05833 8.45 3.9 7.75 3.9H6.5V7.75H7.375Z" fill="#284A42"/>
+				</svg>
 			</div>
 
 			<?php if ($whatsapp || $tg || $phone) : ?>

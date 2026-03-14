@@ -194,7 +194,7 @@ get_header();
             <button class="works__loadMore btn"
                 data-current-page="<?php echo esc_attr($current_page); ?>"
                 data-max-pages="<?php echo esc_attr($works_query->max_num_pages); ?>">
-                показать еще <b>↓</b>
+                показать еще
             </button>
         <?php endif; ?>
         <?php wp_reset_query(); ?>

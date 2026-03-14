@@ -11,6 +11,106 @@ require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 define('IMPORT_DEBUG', true);
 
+/**
+ * Поиск и замена ID форм в шорткодах [wpforms id="123" ...]
+ */
+function sws_update_text_with_wpforms_ids($text, $id_map)
+{
+	if (!is_string($text) || empty($id_map) || !is_array($id_map)) {
+		return $text;
+	}
+
+	$callback = function ($matches) use ($id_map) {
+		$before   = $matches[1];
+		$old_id   = (int) $matches[2];
+		$after    = $matches[3];
+
+		if (!isset($id_map[$old_id])) {
+			return $matches[0];
+		}
+
+		$new_id = (int) $id_map[$old_id];
+
+		// Собираем шорткод с новым ID, сохраняя остальные атрибуты
+		return '[wpforms ' . $before . 'id="' . $new_id . '"' . $after . ']';
+	};
+
+	// Ищем шорткоды вида [wpforms id="123" ...] или [wpforms ... id='123' ...]
+	return preg_replace_callback(
+		'/\[wpforms\s+([^\]]*?)id=["\'](\d+)["\']([^\]]*?)\]/i',
+		$callback,
+		$text
+	);
+}
+
+/**
+ * Рекурсивная замена ID форм в массивах настроек
+ */
+function sws_recursive_replace_wpforms_ids_in_array($value, $id_map)
+{
+	if (is_array($value)) {
+		foreach ($value as $k => $v) {
+			$value[$k] = sws_recursive_replace_wpforms_ids_in_array($v, $id_map);
+		}
+		return $value;
+	}
+
+	return sws_update_text_with_wpforms_ids($value, $id_map);
+}
+
+/**
+ * Обновление шорткодов форм WPForms в кастомайзере и виджетах
+ * после импорта форм (когда старые ID уже известны и сопоставлены новым).
+ */
+function sws_fix_wpforms_shortcodes_in_theme($id_map)
+{
+	if (empty($id_map) || !is_array($id_map)) {
+		return;
+	}
+
+	// Обновляем все theme_mods (настройки кастомайзера)
+	$mods = get_theme_mods();
+	if (is_array($mods)) {
+		foreach ($mods as $key => $value) {
+			$original = $value;
+
+			if (is_array($value)) {
+				$value = sws_recursive_replace_wpforms_ids_in_array($value, $id_map);
+			} else {
+				$value = sws_update_text_with_wpforms_ids($value, $id_map);
+			}
+
+			if ($value !== $original) {
+				set_theme_mod($key, $value);
+			}
+		}
+	}
+
+	// Обновляем настройки виджетов, где тоже могут быть шорткоды форм
+	global $wp_widget_factory;
+	if (isset($wp_widget_factory->widgets) && is_array($wp_widget_factory->widgets)) {
+		foreach ($wp_widget_factory->widgets as $widget) {
+			if (empty($widget->id_base)) {
+				continue;
+			}
+
+			$option_name = 'widget_' . $widget->id_base;
+			$opts        = get_option($option_name);
+
+			if (!is_array($opts) || empty($opts)) {
+				continue;
+			}
+
+			$original_serialized = serialize($opts);
+			$opts                = sws_recursive_replace_wpforms_ids_in_array($opts, $id_map);
+
+			if (serialize($opts) !== $original_serialized) {
+				update_option($option_name, $opts);
+			}
+		}
+	}
+}
+
 // Добавляем обработчики для импорта
 add_action('admin_post_sws_import_customizer_settings', 'sws_start_import_handler');
 add_action('wp_ajax_sws_import_customizer_settings', 'sws_start_import_handler');
@@ -28,6 +128,14 @@ function sws_start_import_handler()
 	// Проверяем права доступа
 	if (!current_user_can('manage_options')) {
 		wp_send_json_error(array('message' => 'У вас нет прав для выполнения этой операции.'));
+		wp_die();
+	}
+
+	// Проверяем наличие функции exec (на некоторых хостингах она отключена)
+	if (!function_exists('exec')) {
+		wp_send_json_error(array(
+			'message' => 'Импорт недоступен: функция exec() отключена на сервере. Обратитесь к хостингу или используйте wp-cli вручную.'
+		));
 		wp_die();
 	}
 
@@ -49,7 +157,15 @@ function sws_start_import_handler()
 		exec($command, $output, $return_var);
 
 		if ($return_var !== 0) {
-			wp_send_json_error(array('message' => 'Ошибка установки плагина wordpress-importer.'));
+			$debug_message = 'Ошибка установки плагина wordpress-importer.';
+			if ($return_var === 127) {
+				$debug_message .= ' На вашем хостинге не установлен wp-cli.';
+			}
+			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+				$debug_message .= ' Код: ' . $return_var . '. Вывод: ' . implode("\n", $output);
+				error_log($debug_message);
+			}
+			wp_send_json_error(array('message' => $debug_message));
 			wp_die();
 		}
 	};
@@ -70,7 +186,15 @@ function sws_start_import_handler()
 	exec($command, $output, $return_var);
 
 	if ($return_var !== 0) {
-		wp_send_json_error(array('message' => 'Ошибка импорта контента из xml файла.'));
+		$debug_message = 'Ошибка импорта контента из xml файла.';
+		if ($return_var === 127) {
+			$debug_message .= ' На вашем хостинге не установлен wp-cli.';
+		}
+		if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+			$debug_message .= ' Код: ' . $return_var . '. Вывод: ' . implode("\n", $output);
+			error_log($debug_message);
+		}
+		wp_send_json_error(array('message' => $debug_message));
 		wp_die();
 	}
 
@@ -112,9 +236,15 @@ function sws_import_customizer_settings_handler()
 	// Импортируем виджеты
 	sws_import_widgets($import_data['widgets']);
 
+	// Импортируем WPForms (если есть данные и плагин установлен)
+	if (!empty($import_data['wpforms'])) {
+		sws_import_wpforms_data($import_data['wpforms']);
+	}
+
 	sleep(1);
 
-	flush_rewrite_rules();
+	// Обновляем правила пермалинков (жёсткий сброс, чтобы перезаписать .htaccess/nginx правила)
+	flush_rewrite_rules(true);
 
 	sleep(1);
 
@@ -371,5 +501,83 @@ function sws_import_customizer_settings($settings)
 		}
 
 		set_theme_mod($key, $value);
+	}
+}
+
+/**
+ * Импорт форм и настроек WPForms
+ *
+ * Ожидает структуру, сохранённую sws_get_wpforms_data().
+ * Выполняется только если плагин WPForms активен.
+ */
+function sws_import_wpforms_data($data)
+{
+	// Проверяем, установлен и активен ли WPForms
+	if (!class_exists('WPForms')) {
+		return;
+	}
+
+	if (!is_array($data)) {
+		return;
+	}
+
+	// Восстанавливаем настройки плагина
+	if (!empty($data['settings']) && is_array($data['settings'])) {
+		update_option('wpforms_settings', $data['settings']);
+	}
+
+	// Восстанавливаем формы
+	if (empty($data['forms']) || !is_array($data['forms'])) {
+		return;
+	}
+
+	$id_map = array(); // соответствие старых ID форм к новым
+
+	foreach ($data['forms'] as $form) {
+		if (empty($form['content'])) {
+			continue;
+		}
+
+		$title  = isset($form['title']) ? $form['title'] : '';
+		$status = !empty($form['status']) ? $form['status'] : 'publish';
+		$slug   = !empty($form['slug']) ? $form['slug'] : '';
+		$old_id = isset($form['id']) ? (int) $form['id'] : 0;
+
+		// Пытаемся найти уже существующую форму по заголовку
+		$existing = null;
+		if ($title !== '') {
+			$existing = get_page_by_title($title, OBJECT, 'wpforms');
+		}
+
+		$postarr = array(
+			'post_title'   => $title,
+			'post_content' => $form['content'],
+			'post_status'  => $status,
+			'post_type'    => 'wpforms',
+		);
+
+		if ($slug !== '') {
+			$postarr['post_name'] = $slug;
+		}
+
+		$new_id = 0;
+
+		if ($existing && !is_wp_error($existing)) {
+			$postarr['ID'] = $existing->ID;
+			$new_id        = (int) $existing->ID;
+			wp_update_post(wp_slash($postarr));
+		} else {
+			$new_id = (int) wp_insert_post(wp_slash($postarr));
+		}
+
+		// Сохраняем соответствие старого и нового ID
+		if ($old_id > 0 && $new_id > 0) {
+			$id_map[$old_id] = $new_id;
+		}
+	}
+
+	// После импорта форм обновляем все шорткоды [wpforms id="..."] в кастомайзере и виджетах
+	if (!empty($id_map)) {
+		sws_fix_wpforms_shortcodes_in_theme($id_map);
 	}
 }

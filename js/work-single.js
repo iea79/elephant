@@ -21,9 +21,9 @@
             adaptiveHeight: true,
             pauseOnHover: true,
             pauseOnFocus: true,
-            draggable: false,
-            swipe: false,
-            touchMove: false,
+            draggable: true,
+            swipe: true,
+            touchMove: true,
         });
 
         var $thumbs = $('.js-workSingle-thumbs');
@@ -42,7 +42,13 @@
                     .addClass('is-active');
             });
 
-            $thumbs.find('.workSingle__thumb').first().addClass('is-active');
+            // Проставляем активный слайд сразу после инициализации
+            var initialSlide = $main.slick('slickCurrentSlide');
+            $thumbs
+                .find('.workSingle__thumb')
+                .removeClass('is-active')
+                .filter('[data-slide="' + initialSlide + '"]')
+                .addClass('is-active');
         }
     }
 

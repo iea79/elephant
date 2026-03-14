@@ -85,13 +85,23 @@ function sws_render_steps_block($attributes)
             $image_id = isset($step['imageId']) ? (int) $step['imageId'] : 0;
             $title    = isset($step['title']) ? $step['title'] : '';
             $text     = isset($step['text']) ? $step['text'] : '';
-            $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'medium') : '';
             $num = $index + 1;
             ?>
             <div class="steps__item">
-                <?php if ($image_url) : ?>
+                <?php if ($image_id) : ?>
                     <div class="steps__imageWrapper">
-                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="steps__image" />
+                        <?php
+                        echo wp_get_attachment_image(
+                            $image_id,
+                            'medium',
+                            false,
+                            array(
+                                'class'   => 'steps__image',
+                                'loading' => 'lazy',
+                                'alt'     => $title,
+                            )
+                        );
+                        ?>
                     </div>
                 <?php endif; ?>
 

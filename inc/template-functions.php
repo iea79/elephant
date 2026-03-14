@@ -188,8 +188,35 @@ function sws_breadcrumbs()
 		echo '<span>' . ($blog_id ? get_the_title($blog_id) : '') . '</span>';
 	} elseif (is_archive()) { // архивы
 		echo '<a href="' . site_url() . '">' . $home_txt . '</a>' . $separator;
-		if (is_page_works()) {
-			echo '<span>' . get_the_title(get_theme_mod('portfolio_page')) . '</span>';
+		if (is_post_type_archive('works')) {
+			// Архив объектов: Home / Страница каталога
+			$portfolio_id = get_theme_mod('portfolio_page');
+			if ($portfolio_id) {
+				echo '<span>' . esc_html(get_the_title($portfolio_id)) . '</span>';
+			} else {
+				echo '<span>' . esc_html(get_post_type_object('works')->labels->name) . '</span>';
+			}
+		} elseif (is_tax('works_category') || is_tax('works_directions') || is_tax('works_tags')) {
+			// Таксономии works_*: Home / Каталог / [Родители] / Текущий термин
+			$portfolio_id = get_theme_mod('portfolio_page');
+			if ($portfolio_id) {
+				echo '<a href="' . esc_url(get_permalink($portfolio_id)) . '">' . esc_html(get_the_title($portfolio_id)) . '</a>' . $separator;
+			}
+
+			$term = get_queried_object();
+			if ($term && !is_wp_error($term)) {
+				// Для иерархической works_category выводим цепочку родителей
+				if ($term->taxonomy === 'works_category' && $term->parent) {
+					$ancestors = array_reverse(get_ancestors($term->term_id, 'works_category'));
+					foreach ($ancestors as $ancestor_id) {
+						$ancestor = get_term($ancestor_id, 'works_category');
+						if ($ancestor && !is_wp_error($ancestor)) {
+							echo '<a href="' . esc_url(get_term_link($ancestor, 'works_category')) . '">' . esc_html($ancestor->name) . '</a>' . $separator;
+						}
+					}
+				}
+				echo '<span>' . esc_html($term->name) . '</span>';
+			}
 		} else {
 			if ($blog_id) {
 				echo '<a href="' . esc_url(get_permalink($blog_id)) . '">' . esc_html(get_the_title($blog_id)) . '</a>' . $separator;

@@ -35,6 +35,7 @@ function sws_export_customizer_settings_handler()
 		'site_options' 			=> sws_get_site_options(),
 		'menus' 				=> sws_get_menus(),
 		'widgets' 				=> sws_get_widgets(),
+		'wpforms'               => sws_get_wpforms_data(),
 	);
 
 	$exportDir = get_template_directory() . '/demo';
@@ -80,7 +81,7 @@ function sws_export_customizer_settings_handler()
 		wp_die();
 	}
 
-	// Делаем экспорт контента в эту же папку в xml формате используя wp export 
+	// Делаем экспорт контента в эту же папку в xml формате, используя wp export 
 	$command = sprintf(
 		'wp export --dir=' . $exportDir . ' --filename_format=content.xml',
 		escapeshellarg(ABSPATH)
@@ -92,6 +93,23 @@ function sws_export_customizer_settings_handler()
 	if ($return_var !== 0) {
 		wp_send_json_error(array(
 			'message' => 'Ошибка сохранения XML файла.',
+		));
+		wp_die();
+	}
+
+	// Делаем дамп базы данных в эту же папку, используя wp db export
+	$db_dump_file = $exportDir . '/database.sql';
+	$command      = sprintf(
+		'wp db export %s',
+		escapeshellarg($db_dump_file)
+	);
+	$output     = array();
+	$return_var = 0;
+	exec($command, $output, $return_var);
+
+	if ($return_var !== 0) {
+		wp_send_json_error(array(
+			'message' => 'Ошибка создания дампа базы данных.',
 		));
 		wp_die();
 	}
@@ -331,6 +349,49 @@ function sws_get_widgets()
 		'sidebars_widgets' => $widgets,
 		'widget_settings' => $widget_settings
 	);
+}
+
+/**
+ * Получение данных WPForms (если плагин установлен)
+ */
+function sws_get_wpforms_data()
+{
+	$data = array(
+		'forms'    => array(),
+		'settings' => array(),
+	);
+
+	// Настройки WPForms
+	$settings = get_option('wpforms_settings');
+	if (is_array($settings)) {
+		$data['settings'] = $settings;
+	}
+
+	// Формы WPForms (кастомный тип записи wpforms)
+	// Не полагаемся на глобальный объект wpforms, просто читаем записи post_type=wpforms.
+	$forms = get_posts(
+		array(
+			'post_type'      => 'wpforms',
+			'post_status'    => array('publish', 'draft', 'pending', 'private'),
+			'posts_per_page' => -1,
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+		)
+	);
+
+	if (!empty($forms) && is_array($forms)) {
+		foreach ($forms as $form) {
+			$data['forms'][] = array(
+				'id'      => (int) $form->ID,
+				'title'   => $form->post_title,
+				'content' => $form->post_content,
+				'status'  => $form->post_status,
+				'slug'    => $form->post_name,
+			);
+		}
+	}
+
+	return $data;
 }
 
 /**

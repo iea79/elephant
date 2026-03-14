@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     initCompositionReorder();
     initModalToggles();
     initSendRequestModal();
-    initWpformsHandlers();
+    initWpformsPhoneFix();
     initYandexMapScrollLock();
     window.addEventListener('resize', handleLayoutResize);
 });
@@ -46,6 +46,11 @@ function toggleNav() {
         toggle.addEventListener('click', function (e) {
             e.preventDefault();
             const isOpening = !fullNav.classList.contains('open');
+            if (isOpening) {
+                // Закрываем поиск, если он открыт
+                closeAllMenus();
+            }
+
             // nav.classList.toggle('open');
             fullNav.classList.toggle('open');
             toggles.forEach((t) => t.classList.toggle('active'));
@@ -293,11 +298,11 @@ function initObjectPlacementGallery() {
     updateObjectPlacementGallery();
 }
 
-// Блокируем взаимодействие скроллом с Яндекс картами,
-// чтобы при прокрутке страницы карта не реагировала колесом/тачем.
 function initYandexMapScrollLock() {
     const maps = document.querySelectorAll('.swsYandexMap');
     if (!maps.length) return;
+
+    const overlays = [];
 
     maps.forEach((map) => {
         // Обеспечиваем, что контейнер может содержать абсолютный оверлей
@@ -314,15 +319,35 @@ function initYandexMapScrollLock() {
         overlay.style.bottom = '0';
         overlay.style.zIndex = '2';
         overlay.style.background = 'transparent';
-        // События идут в оверлей, карта их не получает, страница продолжает скроллиться
+        // По умолчанию блокируем скролл/тач по карте
         overlay.style.pointerEvents = 'auto';
 
-        // Не даём оверлею мешать клику по ссылкам выше по дереву
+        // Клик по оверлею «разблокирует» карту: убираем перехват событий
         overlay.addEventListener('click', function (e) {
             e.stopPropagation();
+            overlay.style.pointerEvents = 'none';
+            overlay.classList.add('swsYandexMap-scrollShield--unlocked');
         });
 
         map.appendChild(overlay);
+        overlays.push({ map, overlay });
+    });
+
+    // Клик вне карты снова включает блокировку для всех карт
+    document.addEventListener('click', function (e) {
+        const target = e.target;
+        const isInsideAnyMap = overlays.some(function (item) {
+            return item.map.contains(target);
+        });
+
+        if (isInsideAnyMap) {
+            return;
+        }
+
+        overlays.forEach(function (item) {
+            item.overlay.style.pointerEvents = 'auto';
+            item.overlay.classList.remove('swsYandexMap-scrollShield--unlocked');
+        });
     });
 }
 
@@ -373,7 +398,7 @@ function updateWorksFilterLayout() {
         return;
     }
 
-    // Мобилка: плавное скрытие/показ по высоте
+    // Мобилка: плавное скрытие/показ по высоте (только для кликов, не для первой инициализации из inline-скрипта)
     container.style.overflow = 'hidden';
     container.style.transition = 'height 0.3s ease';
 
@@ -390,8 +415,6 @@ function initWorksFilterToggle() {
 
     if (!toggle || !container) return;
 
-    // По умолчанию на мобильном фильтр скрыт, на десктопе всегда открыт (см. updateWorksFilterLayout)
-    container.classList.remove('is-open');
     updateWorksFilterLayout();
 
     toggle.addEventListener('click', function (e) {
@@ -409,6 +432,13 @@ function initWorksFilterToggle() {
         }
 
         updateWorksFilterLayout();
+
+        // Сохраняем состояние фильтра на мобильных
+        if (typeof window.localStorage !== 'undefined') {
+            try {
+                localStorage.setItem('worksFilterIsOpen', container.classList.contains('is-open') ? '1' : '0');
+            } catch (e) {}
+        }
     });
 }
 
@@ -481,6 +511,10 @@ function toggleSearch() {
         toggle.addEventListener('click', function (e) {
             e.preventDefault();
             const isOpening = !box.classList.contains('open');
+            if (isOpening) {
+                // Закрываем меню навигации, если оно открыто
+                closeAllMenus();
+            }
             box.classList.toggle('open');
             if (isOpening) {
                 header.classList.add('open');
@@ -515,7 +549,6 @@ function stikedHeader() {
 
 // Close all open menus and search when modal opens
 function closeAllMenus() {
-    const nav = document.querySelector('.nav');
     const fullNav = document.querySelector('.header__fullnav');
     const search = document.querySelector('.header__navsearch');
     const navToggles = document.querySelectorAll('.nav__toggle');
@@ -524,17 +557,23 @@ function closeAllMenus() {
     const searchOverlay = document.querySelector('.search-backdrop');
     const header = document.querySelector('#masthead');
 
-    if (nav && nav.classList.contains('open')) {
-        nav.classList.remove('open');
+    // Закрываем навигацию, если открыта
+    if (fullNav && fullNav.classList.contains('open')) {
         fullNav.classList.remove('open');
         navToggles.forEach((t) => t.classList.remove('active'));
         if (navOverlay) navOverlay.classList.remove('open');
-        header.classList.remove('open');
         document.body.style.overflow = '';
     }
+
+    // Закрываем поиск, если открыт
     if (search && search.classList.contains('open')) {
         search.classList.remove('open');
         if (searchOverlay) searchOverlay.classList.remove('open');
+    }
+
+    // Всегда убираем класс open с хедера,
+    // конкретное состояние при открытии ставится в toggleNav/toggleSearch
+    if (header) {
         header.classList.remove('open');
     }
 }
@@ -543,8 +582,21 @@ function closeAllMenus() {
 function initModalToggles() {
     const modalToggles = document.querySelectorAll('[data-toggle="modal"]');
     modalToggles.forEach((toggle) => {
-        toggle.addEventListener('click', function () {
+        toggle.addEventListener('click', function (e) {
+            const targetSelector = this.getAttribute('data-target') || '';
+            const targetId = targetSelector.replace('#', '');
+
+            // Закрываем меню/поиск перед открытием модалки
             closeAllMenus();
+
+            // Для модалки getConsult подменяем заголовок на текст кнопки
+            if (targetId === 'getConsult' && typeof jQuery !== 'undefined') {
+                const $btn = jQuery(this);
+                const title = jQuery.trim($btn.text()) || $btn.attr('data-title') || '';
+                if (title) {
+                    jQuery('#getConsult').find('.modal-title').text(title);
+                }
+            }
         });
     });
 }
@@ -555,60 +607,80 @@ function initSendRequestModal() {
 
     jQuery(document).on('click', '.js-send-request', function (e) {
         e.preventDefault();
+        var $btn = jQuery(this);
+        var title = jQuery.trim($btn.text()) || $btn.attr('data-title') || '';
         var $modal = jQuery('#getConsult');
         if ($modal.length && typeof $modal.modal === 'function') {
+            if (title) {
+                $modal.find('.modal-title').text(title);
+            }
             $modal.modal('show');
         }
     });
 }
 
-// Handle WPForms successful submission
-function initWpformsHandlers() {
+// WPForms + Inputmask: фикс ошибок при автозаполнении телефона
+function initWpformsPhoneFix() {
     if (typeof jQuery === 'undefined') return;
 
-    // Listen for WPForms AJAX success event
-    jQuery(document).on('wpformsAjaxSubmitSuccess', function (event, formId, data) {
-        // Get the form element
-        var $form = jQuery(event.target).closest('form.wpforms-form');
-        if (!$form.length) {
-            // Fallback: try to find form by ID
-            $form = jQuery('#wpforms-form-' + formId);
+    // Селектор для телефонных полей WPForms (при необходимости можно уточнить)
+    var PHONE_SELECTOR = '.wpforms-field-phone input, .wpforms-field-phone-alt input, input[type="tel"]';
+
+    function detachInputmask($inputs) {
+        if (!window.Inputmask && !(jQuery.fn && jQuery.fn.inputmask)) {
+            return;
         }
-        if ($form.length) {
-            // Close the modal containing this form
-            var $modal = $form.closest('.modal');
-            if ($modal.length) {
-                $modal.modal('hide');
-            }
-            // Open success modal after a short delay to allow form modal to close
-            setTimeout(function () {
-                var $successModal = jQuery('#modalSuccess');
-                if ($successModal.length) {
-                    $successModal.modal('show');
+
+        $inputs.each(function () {
+            var $el = jQuery(this);
+            try {
+                // Снимаем маску, чтобы избежать падений keyEvent внутри jquery.inputmask
+                if (typeof $el.inputmask === 'function') {
+                    $el.inputmask('remove');
                 }
-            }, 500);
-        }
+                // На всякий случай убираем навешанные обработчики inputmask
+                $el.off('.inputmask');
+            } catch (e) {}
+        });
+    }
+
+    function applyPhoneFix(context) {
+        var $ctx = context ? jQuery(context) : jQuery(document);
+        var $phones = $ctx.find(PHONE_SELECTOR);
+        if (!$phones.length) return;
+
+        // 1) Снимаем inputmask сразу после инициализации формы
+        detachInputmask($phones);
+
+        // 2) Подчищаем значение после автозаполнения/вставки, но без маски
+        $phones.off('.wpformsPhoneFix').on('change.wpformsPhoneFix input.wpformsPhoneFix', function () {
+            var val = this.value;
+            if (typeof val !== 'string') return;
+            // Оставляем только цифры и символы +()-
+            var cleaned = val.replace(/[^0-9+()\-\s]/g, '');
+            if (cleaned !== val) {
+                this.value = cleaned;
+            }
+        });
+    }
+
+    // Инициализация при первой загрузке документа
+    jQuery(function () {
+        applyPhoneFix(document);
     });
 
-    // Also handle non-AJAX success if needed
-    jQuery(document).on('wpformsFormSubmit', function (event, formId, data) {
-        if (data && data.success) {
-            var $form = jQuery(event.target).closest('form.wpforms-form');
-            if (!$form.length) {
-                $form = jQuery('#wpforms-form-' + formId);
-            }
-            if ($form.length) {
-                var $modal = $form.closest('.modal');
-                if ($modal.length) {
-                    $modal.modal('hide');
-                }
-                setTimeout(function () {
-                    var $successModal = jQuery('#modalSuccess');
-                    if ($successModal.length) {
-                        $successModal.modal('show');
-                    }
-                }, 500);
-            }
-        }
+    // Повторная инициализация при готовности/перерисовке WPForms (AJAX, мульти-формы и т.п.)
+    jQuery(document).on('wpformsReady wpformsAjaxSubmitSuccess wpformsAjaxSubmit', function (event, form) {
+        applyPhoneFix(form || document);
     });
 }
+
+// Маска ввода для элементов с data-inputmask-mask
+jQuery(document).ready(function () {
+    jQuery('[data-inputmask-mask]').each(function () {
+        const mask = jQuery(this).attr('data-inputmask-mask');
+        if (mask) {
+            jQuery(this).mask(mask);
+        }
+    });
+});

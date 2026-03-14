@@ -23,17 +23,28 @@ $current_page  = $paged_query ? $paged_query : ($page_query ? $page_query : 1);
 
 $category_slug = isset($_GET['category']) ? sanitize_text_field($_GET['category']) : '';
 
-// По умолчанию применяем первую родительскую категорию
-if (!$category_slug && !empty($parent_categories) && !is_wp_error($parent_categories)) {
-	$category_slug = $parent_categories[0]->slug;
-}
-
 // Текущий термин и родительская категория для вывода дочерних
 $current_term   = null;
 $current_parent = null;
 
-if ($category_slug) {
+// Если мы на архиве таксономии works_category — используем реально запрошенный термин
+if (is_tax('works_category')) {
+	$queried = get_queried_object();
+	if ($queried && !is_wp_error($queried) && !empty($queried->slug)) {
+		$current_term  = $queried;
+		$category_slug = $queried->slug;
+	}
+}
+
+// Если термина ещё нет, но есть slug из GET — берём его
+if (!$current_term && $category_slug) {
 	$current_term = get_term_by('slug', $category_slug, 'works_category');
+}
+
+// По умолчанию, если ничего не выбрано, применяем первую родительскую категорию
+if (!$current_term && !$category_slug && !empty($parent_categories) && !is_wp_error($parent_categories)) {
+	$category_slug = $parent_categories[0]->slug;
+	$current_term  = get_term_by('slug', $category_slug, 'works_category');
 }
 
 if ($current_term && !is_wp_error($current_term)) {
@@ -63,7 +74,7 @@ if ($current_parent) {
 		<div class="worksFilter__toggle btn btn_small">Фильтры</div>
 		<?php foreach ($child_categories as $child) : ?>
 			<?php
-			$child_url       = add_query_arg('category', $child->slug, get_permalink(WORKS_PAGE_ID));
+			$child_url       = get_term_link($child, 'works_category');
 			$is_child_active = ($current_term && !is_wp_error($current_term) && $current_term->slug === $child->slug);
 			?>
 			<a href="<?php echo esc_url($child_url); ?>" class="btn btn_success btn_small worksFilter__subcategory<?php echo $is_child_active ? ' worksFilter__subcategory--active' : ''; ?>">
@@ -81,7 +92,7 @@ if ($current_parent) {
 					<?php
 					$active_parent_slug = $current_parent ? $current_parent->slug : $category_slug;
 					$is_active          = ($active_parent_slug === $parent_cat->slug);
-					$tab_url            = add_query_arg('category', $parent_cat->slug, get_permalink(WORKS_PAGE_ID));
+					$tab_url            = get_term_link($parent_cat, 'works_category');
 					?>
 					<a class="worksFilter__tab<?php echo $is_active ? ' worksFilter__tab--active' : ''; ?>" href="<?php echo esc_url($tab_url); ?>">
 						<?php echo esc_html($parent_cat->name); ?>
@@ -92,7 +103,7 @@ if ($current_parent) {
 				<div class="worksFilter__subcategories desktop">
 					<?php foreach ($child_categories as $child) : ?>
 						<?php
-						$child_url       = add_query_arg('category', $child->slug, get_permalink(WORKS_PAGE_ID));
+						$child_url       = get_term_link($child, 'works_category');
 						$is_child_active = ($current_term && !is_wp_error($current_term) && $current_term->slug === $child->slug);
 						?>
 						<a href="<?php echo esc_url($child_url); ?>" class="btn btn_success btn_small worksFilter__subcategory<?php echo $is_child_active ? ' worksFilter__subcategory--active' : ''; ?>">
@@ -261,3 +272,26 @@ if ($current_parent) {
 
 	</form>
 </div>
+<script>
+	(function () {
+		try {
+			if (window.innerWidth >= 768) return;
+			var container = document.querySelector('.worksFilter__container');
+			if (!container) return;
+			var saved = window.localStorage ? localStorage.getItem('worksFilterIsOpen') : null;
+			if (saved === '1') {
+				container.classList.add('is-open');
+			} else {
+				container.classList.remove('is-open');
+			}
+			// Мгновенно применяем высоту без анимации
+			container.style.overflow = 'hidden';
+			container.style.transition = 'none';
+			container.style.height = container.classList.contains('is-open') ? container.scrollHeight + 'px' : '0px';
+			// Разрешим анимацию для последующих кликов
+			setTimeout(function () {
+				container.style.transition = '';
+			}, 0);
+		} catch (e) {}
+	})();
+</script>

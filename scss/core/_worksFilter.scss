@@ -17,7 +17,7 @@
     &__container {
         overflow: hidden;
         height: 0;
-        transition: height 0.3s ease-in-out;
+        // transition: height 0.3s ease-in-out;
 
         @media (min-width: 768px) {
             height: auto;
@@ -198,6 +198,10 @@
             @media (max-width: 767px) and (min-width: 480px) {
                 width: 55%;
             }
+
+            @media (min-width: 768px) {
+                width: 100%;
+            }
         }
 
         &SliderTrack {
@@ -228,6 +232,7 @@
                     &.ui-state-default,
                     &.ui-state-active,
                     &.ui-state-focus {
+                        outline: none;
                         background: #82a49c;
                         border: 0;
                     }
